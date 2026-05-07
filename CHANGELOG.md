@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial Laravel binding for `akankov/html-min` `^2.5`:
+- Initial Laravel binding for `akankov/html-min` `^2.5`. Supports
+  Laravel 11.x, 12.x, and 13.x on PHP 8.3 / 8.4 / 8.5.
   - `HtmlMinServiceProvider` — singleton-binds `HtmlMin` and
     `MinifierOptions`, publishes `config/htmlmin.php` (snake_case
     keys mapped to `MinifierOptions`'s camelCase properties).
@@ -24,5 +25,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   PHPUnit 10 migration rule sets, Rector (`UP_TO_PHP_83` +
   `TYPE_DECLARATION` + `DEAD_CODE`), PHPUnit with strict `failOn`
   settings.
-- GitHub Actions CI matrix on PHP 8.3 / 8.4 / 8.5 × Laravel 11 / 12,
-  plus separate jobs for PHPStan, Rector dry-run, and PHP-CS-Fixer.
+- GitHub Actions CI matrix on PHP 8.3 / 8.4 / 8.5 × Laravel 11 / 12 /
+  13, plus separate jobs for PHPStan, Rector dry-run, and PHP-CS-Fixer.

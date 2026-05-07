@@ -5,7 +5,7 @@ Laravel integration for [`akankov/html-min`](https://packagist.org/packages/akan
 ## Requirements
 
 - PHP `8.3.* || 8.4.* || 8.5.*`
-- Laravel 11.x or 12.x
+- Laravel 11.x, 12.x, or 13.x
 - `akankov/html-min` `^2.5`
 
 ## Install
@@ -40,20 +40,28 @@ The block captures rendered output, then minifies it. Variables interpolated via
 
 Opt-in: the service provider does **not** push the middleware onto the global stack — register it explicitly where you want it.
 
-Globally, in `app/Http/Kernel.php`:
+Globally, in `bootstrap/app.php` (Laravel 11+):
 
 ```php
-protected $middleware = [
+use Akankov\LaravelCompressHtml\Http\MinifyHtmlResponseMiddleware;
+use Illuminate\Foundation\Configuration\Middleware;
+
+return Application::configure(basePath: dirname(__DIR__))
     // …
-    \Akankov\LaravelCompressHtml\Http\MinifyHtmlResponseMiddleware::class,
-];
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->append(MinifyHtmlResponseMiddleware::class);
+    })
+    // …
+    ->create();
 ```
 
-Or per-route:
+Or per-route / per-group:
 
 ```php
-Route::middleware(\Akankov\LaravelCompressHtml\Http\MinifyHtmlResponseMiddleware::class)
-    ->group(function () {
+use Akankov\LaravelCompressHtml\Http\MinifyHtmlResponseMiddleware;
+
+Route::middleware(MinifyHtmlResponseMiddleware::class)
+    ->group(function (): void {
         // routes whose responses should be minified
     });
 ```
