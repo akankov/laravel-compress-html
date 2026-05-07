@@ -1,0 +1,64 @@
+name: Feature request
+description: Suggest a directive, middleware behavior, configuration key, or documentation improvement.
+title: "Feature: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement. Please describe the use case and expected behavior clearly.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Pre-flight
+      options:
+        - label: I have searched existing issues.
+          required: true
+        - label: This belongs in the Laravel binding layer (not in `akankov/html-min` itself).
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What limitation or use case should this solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed solution
+      description: Describe the directive, middleware behavior, config key, API, or documentation change you want.
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example template, route, or response
+      description: Include the Blade/route before and the expected behavior after when applicable.
+      render: php
+
+  - type: dropdown
+    id: compatibility
+    attributes:
+      label: Could this change existing rendered output of the directive or middleware?
+      options:
+        - "No"
+        - "Yes"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Mention workarounds or caller-side solutions if any.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add links, prior art, or upstream discussion if relevant.
