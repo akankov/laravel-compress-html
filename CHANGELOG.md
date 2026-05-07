@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-05-07
+
+### Added
+
+- `php artisan html-min:check FILE` Artisan command — minifies the
+  given HTML file in memory and prints the byte savings (e.g.
+  `Reduced from 12.4 KB to 9.1 KB (-26.6%)`). Useful as a CI/dev
+  smoke-check; never writes back to disk. Auto-registered by the
+  service provider when running in the console.
+
 ## [0.1.1] — 2026-05-07
 
 ### Added

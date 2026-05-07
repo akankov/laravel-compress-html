@@ -7,6 +7,7 @@ namespace Akankov\LaravelCompressHtml;
 use Akankov\HtmlMin\Config\MinifierOptions;
 use Akankov\HtmlMin\HtmlMin;
 use Akankov\LaravelCompressHtml\Blade\HtmlMinCompiler;
+use Akankov\LaravelCompressHtml\Console\HtmlMinCheckCommand;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Blade;
@@ -50,6 +51,8 @@ final class HtmlMinServiceProvider extends ServiceProvider
                 [self::CONFIG_PATH => $this->app->configPath(self::CONFIG_KEY . '.php')],
                 self::PUBLISH_TAG,
             );
+
+            $this->commands([HtmlMinCheckCommand::class]);
         }
     }
 
