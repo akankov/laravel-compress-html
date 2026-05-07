@@ -1,0 +1,12 @@
+# composer
+/vendor/
+/composer.lock
+
+# php tooling caches
+/.phpstan.cache/
+/.phpunit.cache/
+/.phpunit.result.cache
+/.php-cs-fixer.cache
+
+# ide
+/.idea/
