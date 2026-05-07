@@ -1,3 +1,9 @@
+[![CI](https://github.com/akankov/laravel-compress-html/actions/workflows/ci.yml/badge.svg)](https://github.com/akankov/laravel-compress-html/actions/workflows/ci.yml)
+[![Latest Stable Version](http://poser.pugx.org/akankov/laravel-compress-html/v)](https://packagist.org/packages/akankov/laravel-compress-html)
+[![Monthly Downloads](http://poser.pugx.org/akankov/laravel-compress-html/d/monthly)](https://packagist.org/packages/akankov/laravel-compress-html)
+[![Dependents](http://poser.pugx.org/akankov/laravel-compress-html/dependents)](https://packagist.org/packages/akankov/laravel-compress-html)
+[![License](http://poser.pugx.org/akankov/laravel-compress-html/license)](https://packagist.org/packages/akankov/laravel-compress-html)
+
 # laravel-compress-html
 
 Laravel integration for [`akankov/html-min`](https://packagist.org/packages/akankov/html-min) — adds a Blade `@htmlmin` block directive, an opt-in HTML response middleware, and a publishable config-driven service provider.
