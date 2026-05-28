@@ -32,6 +32,8 @@ return [
     'sum_up_whitespace' => true,
     'remove_spaces_between_tags' => false,
     'keep_broken_html' => false,
+    'minify_inline_css' => false,
+    'minify_inline_js' => false,
     'local_domains' => [],
     'special_html_comments_starting_with' => [],
     'special_html_comments_ending_with' => [],
