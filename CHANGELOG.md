@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-05-28
+
+Exposes the opt-in inline CSS/JS minification toggles added in
+`akankov/html-min` 2.6 through the publishable config. Released from PR
+[#1](https://github.com/akankov/laravel-compress-html/pull/1).
+
 ### Added
 
 - `minify_inline_css` and `minify_inline_js` config keys (both default `false`),
