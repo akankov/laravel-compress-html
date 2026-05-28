@@ -44,6 +44,31 @@ final class HtmlMinServiceProviderTest extends TestCase
         self::assertFalse($options->removeDeprecatedTypeFromScriptTag);
     }
 
+    public function testInlineMinifyConfigKeysMapToOptions(): void
+    {
+        config([
+            'htmlmin.minify_inline_css' => true,
+            'htmlmin.minify_inline_js' => true,
+        ]);
+        app()->forgetInstance(MinifierOptions::class);
+
+        $options = app(MinifierOptions::class);
+
+        self::assertTrue($options->minifyInlineCss);
+        self::assertTrue($options->minifyInlineJs);
+    }
+
+    public function testInlineCssConfigDrivesMinification(): void
+    {
+        config(['htmlmin.minify_inline_css' => true]);
+        app()->forgetInstance(MinifierOptions::class);
+        app()->forgetInstance(HtmlMin::class);
+
+        $out = app(HtmlMin::class)->minify('<style>a { color: red; /* x */ }</style>');
+
+        self::assertStringContainsString('<style>a{color:red}</style>', $out);
+    }
+
     public function testConfigIsPublishable(): void
     {
         Artisan::call('vendor:publish', ['--tag' => 'htmlmin-config', '--force' => true]);
