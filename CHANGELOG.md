@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-05-31
+
+Tracks the latest engine: requires `akankov/html-min` **^2.8** (was ^2.6). Since
+2.6 the engine gained 100% line coverage, mutation-tested hardening, an internal
+decomposition, and an HTML-parser cleanup — all behaviour-preserving for the
+well-formed output this binding produces. No API change to the Blade directive,
+middleware, or service provider.
+
+### Changed
+
+- Bump the `akankov/html-min` requirement from `^2.6` to `^2.8` (and correct the
+  README requirements line, which still listed `^2.5`).
+
 ## [0.3.0] — 2026-05-28
 
 Exposes the opt-in inline CSS/JS minification toggles added in
