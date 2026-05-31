@@ -12,7 +12,7 @@ Laravel integration for [`akankov/html-min`](https://packagist.org/packages/akan
 
 - PHP `8.3.* || 8.4.* || 8.5.*`
 - Laravel 11.x, 12.x, or 13.x
-- `akankov/html-min` `^2.5`
+- `akankov/html-min` `^2.8`
 
 ## Install
 
