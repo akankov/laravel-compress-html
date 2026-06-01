@@ -28,18 +28,15 @@ final class HtmlMinCheckCommand extends Command
     public function handle(HtmlMin $minifier): int
     {
         $file = $this->argument('file');
-        if (!\is_string($file) || !is_file($file) || !is_readable($file)) {
+        // A single @file_get_contents already reports missing / unreadable /
+        // directory / non-string paths via false — no redundant is_file()/
+        // is_readable() pre-check (mirrors the engine's Cli::readInput()).
+        $original = \is_string($file) ? @file_get_contents($file) : false;
+        if ($original === false) {
             $this->components->error(\sprintf(
                 'Cannot read input file: %s',
                 \is_string($file) ? $file : '<missing>',
             ));
-
-            return self::FAILURE;
-        }
-
-        $original = file_get_contents($file);
-        if ($original === false) {
-            $this->components->error(\sprintf('Cannot read input file: %s', $file));
 
             return self::FAILURE;
         }

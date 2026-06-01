@@ -86,13 +86,31 @@ Every key in `config/htmlmin.php` is a snake_case mirror of a property on `Akank
 
 See the published config file for the full list of 29 keys with their defaults.
 
+## Artisan command
+
+`html-min:check` minifies a file **in memory** and reports the byte savings — a CI/dev smoke-check for "did this template change inflate the page?" without writing anything to disk:
+
+```sh
+php artisan html-min:check resources/views/rendered/home.html
+# Reduced from 48.2 KB to 41.7 KB (-13.5%)
+```
+
+It exits `0` on success and `1` if the file cannot be read.
+
+## Versioning
+
+This package follows [Semantic Versioning](https://semver.org/). From **1.0.0** onward the public surface — the `@htmlmin` directive, the `MinifyHtmlResponseMiddleware`, the `html-min:check` command, the published `config/htmlmin.php` keys, and the service-provider bindings — is stable; breaking changes are reserved for a new major version. The underlying engine is tracked via a caret constraint (`akankov/html-min: ^2.8`), so it picks up engine minor/patch releases automatically.
+
 ## Tests
 
 ```sh
 composer install
 vendor/bin/phpunit
-make ci   # cs-check + phpstan + rector-check + test
+make ci         # cs-check + phpstan + rector-check + test
+make coverage   # line coverage + 100% floor (needs pcov or xdebug)
 ```
+
+The suite holds **100% line coverage**, enforced in CI.
 
 ## License
 

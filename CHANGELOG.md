@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] — 2026-06-01
+
+First **stable** release. The public surface — the `@htmlmin` Blade directive,
+`MinifyHtmlResponseMiddleware`, the `html-min:check` Artisan command, the
+published `config/htmlmin.php` keys, and the service-provider bindings — is now
+covered by a Semantic-Versioning stability promise: breaking changes are
+reserved for a future major version. No behavioural change for existing users
+upgrading from 0.4.0.
+
+### Added
+
+- **Line-coverage gate at 100%.** A `make coverage` target and a CI coverage job
+  (pcov) enforce the floor via `bin/coverage-check.php`, matching the engine's
+  measured-quality standard. New tests cover the Blade compiler directly
+  (Blade's view cache shadowed it through the end-to-end test) and the
+  `html-min:check` byte-formatting (KB/MB) and error paths.
+- **Documentation** for the `html-min:check` Artisan command and a `Versioning`
+  policy section in the README.
+
+### Changed
+
+- Simplified `HtmlMinCheckCommand` file reading to a single guarded
+  `@file_get_contents()` (dropping a redundant `is_file()`/`is_readable()`
+  pre-check), mirroring the engine's `Cli::readInput()`. Behaviour is unchanged —
+  same error message and exit code 1 on an unreadable path.
+
 ## [0.4.0] — 2026-05-31
 
 Tracks the latest engine: requires `akankov/html-min` **^2.8** (was ^2.6). Since
