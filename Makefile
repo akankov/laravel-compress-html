@@ -3,7 +3,10 @@
 PHP      ?= php
 COMPOSER ?= composer
 
-.PHONY: help install update outdated test phpstan cs cs-check rector rector-check quality ci clean
+# Line-coverage floor enforced by `make coverage` and the CI coverage job.
+MIN_LINE_COVERAGE := 100
+
+.PHONY: help install update outdated test coverage phpstan cs cs-check rector rector-check quality ci clean
 
 help: ## Show this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage: make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
@@ -19,6 +22,10 @@ outdated: ## Show outdated composer dependencies
 
 test: ## Run phpunit
 	$(PHP) vendor/bin/phpunit
+
+coverage: ## Run phpunit with line coverage and enforce the floor (needs pcov or xdebug)
+	$(PHP) -d pcov.enabled=1 vendor/bin/phpunit --coverage-clover build/coverage/clover.xml --coverage-text --only-summary-for-coverage-text
+	$(PHP) bin/coverage-check.php build/coverage/clover.xml $(MIN_LINE_COVERAGE)
 
 phpstan: ## Run phpstan at level max
 	$(PHP) vendor/bin/phpstan analyse --no-progress --memory-limit=512M

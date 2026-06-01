@@ -8,5 +8,8 @@
 /.phpunit.result.cache
 /.php-cs-fixer.cache
 
+# coverage / build artifacts
+/build/
+
 # ide
 /.idea/
