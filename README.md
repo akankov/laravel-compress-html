@@ -11,7 +11,7 @@ Laravel integration for [`akankov/html-min`](https://packagist.org/packages/akan
 ## Requirements
 
 - PHP `8.3.* || 8.4.* || 8.5.*`
-- Laravel 11.x, 12.x, or 13.x
+- Laravel 12.x or 13.x
 - `akankov/html-min` `^2.8`
 
 ## Install
@@ -46,7 +46,7 @@ The block captures rendered output, then minifies it. Variables interpolated via
 
 Opt-in: the service provider does **not** push the middleware onto the global stack — register it explicitly where you want it.
 
-Globally, in `bootstrap/app.php` (Laravel 11+):
+Globally, in `bootstrap/app.php` (Laravel 12+):
 
 ```php
 use Akankov\LaravelCompressHtml\Http\MinifyHtmlResponseMiddleware;
