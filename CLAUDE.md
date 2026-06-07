@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`akankov/laravel-compress-html` — Laravel 12/13 binding for the [`akankov/html-min`](https://github.com/akankov/html-min) HTML minifier engine. All four originally-planned phases shipped (`v0.1.0` → `v0.1.1` → `v0.2.0`); the package is in maintenance mode pending real-world feedback before a `v1.0.0` cut.
+`akankov/laravel-compress-html` — Laravel 12/13 binding for the [`akankov/html-min`](https://github.com/akankov/html-min) HTML minifier engine. Now at **`v1.0.0`** (stable, released 2026-06-01, via `v0.1.0` → `v0.1.1` → `v0.2.0` → `v0.3.0` → `v0.4.0`). The public surface — the `@htmlmin` Blade directive, `MinifyHtmlResponseMiddleware`, the `html-min:check` Artisan command, the published `config/htmlmin.php` keys, and the service-provider bindings — is under a SemVer stability promise; breaking changes are reserved for a future major.
 
 Three integration surfaces, all auto-discovered via `extra.laravel.providers`:
 
