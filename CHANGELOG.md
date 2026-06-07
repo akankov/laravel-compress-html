@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- **Dropped Laravel 11 support.** Laravel 11's security-support window has closed,
+  and it is now permanently flagged by an upstream advisory (CVE-2026-48019, a
+  CRLF injection in Laravel's default email rule — unrelated to this package)
+  with no 11.x backport, so Composer can no longer install it. The supported
+  range is now Laravel 12.x / 13.x: the `illuminate/*` constraints drop `^11.0`,
+  `orchestra/testbench` drops `^9.0`, and the CI matrix drops `11.*`. Laravel 12
+  and 13 are unaffected (the fix shipped in 12.60.0 / 13.10.0).
+
 ## [1.0.0] — 2026-06-01
 
 First **stable** release. The public surface — the `@htmlmin` Blade directive,

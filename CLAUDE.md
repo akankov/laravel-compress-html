@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`akankov/laravel-compress-html` — Laravel 11/12/13 binding for the [`akankov/html-min`](https://github.com/akankov/html-min) HTML minifier engine. All four originally-planned phases shipped (`v0.1.0` → `v0.1.1` → `v0.2.0`); the package is in maintenance mode pending real-world feedback before a `v1.0.0` cut.
+`akankov/laravel-compress-html` — Laravel 12/13 binding for the [`akankov/html-min`](https://github.com/akankov/html-min) HTML minifier engine. All four originally-planned phases shipped (`v0.1.0` → `v0.1.1` → `v0.2.0`); the package is in maintenance mode pending real-world feedback before a `v1.0.0` cut.
 
 Three integration surfaces, all auto-discovered via `extra.laravel.providers`:
 
@@ -38,7 +38,7 @@ vendor/bin/rector process --dry-run             # UP_TO_PHP_83 + TYPE_DECLARATIO
 make ci                                         # cs-check + phpstan + rector-check + test
 ```
 
-CI matrix on GitHub Actions: PHP 8.3 / 8.4 / 8.5 × Laravel 11.* / 12.* / 13.* (9 test jobs) plus three single-PHP gates (PHPStan, php-cs-fixer, rector). Tests use `Orchestra\Testbench\TestCase` rather than a full Laravel app fixture; `tests/TestCase.php` registers the provider via `getPackageProviders($app)`.
+CI matrix on GitHub Actions: PHP 8.3 / 8.4 / 8.5 × Laravel 12.* / 13.* (6 test jobs) plus three single-PHP gates (PHPStan, php-cs-fixer, rector). Laravel 11 was dropped once its security-support window closed (it became permanently flagged by an upstream advisory with no 11.x backport). Tests use `Orchestra\Testbench\TestCase` rather than a full Laravel app fixture; `tests/TestCase.php` registers the provider via `getPackageProviders($app)`.
 
 ## Layout
 
