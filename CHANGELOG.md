@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] — 2026-06-07
+
+Major version: drops support for an EOL framework (see below). No change to the
+package's own API, Blade directive, middleware, or config — a Laravel 12 / 13
+app upgrading from 1.0.0 needs no code changes.
+
 ### Removed
 
 - **Dropped Laravel 11 support.** Laravel 11's security-support window has closed,
