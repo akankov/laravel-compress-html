@@ -12,7 +12,7 @@ Laravel integration for [`akankov/html-min`](https://packagist.org/packages/akan
 
 - PHP `8.3.* || 8.4.* || 8.5.*`
 - Laravel 12.x or 13.x
-- `akankov/html-min` `^2.8`
+- `akankov/html-min` `^2.9`
 
 ## Install
 
@@ -99,7 +99,7 @@ It exits `0` on success and `1` if the file cannot be read.
 
 ## Versioning
 
-This package follows [Semantic Versioning](https://semver.org/). From **1.0.0** onward the public surface — the `@htmlmin` directive, the `MinifyHtmlResponseMiddleware`, the `html-min:check` command, the published `config/htmlmin.php` keys, and the service-provider bindings — is stable; breaking changes are reserved for a new major version. The underlying engine is tracked via a caret constraint (`akankov/html-min: ^2.8`), so it picks up engine minor/patch releases automatically.
+This package follows [Semantic Versioning](https://semver.org/). From **1.0.0** onward the public surface — the `@htmlmin` directive, the `MinifyHtmlResponseMiddleware`, the `html-min:check` command, the published `config/htmlmin.php` keys, and the service-provider bindings — is stable; breaking changes are reserved for a new major version. The underlying engine is tracked via a caret constraint (`akankov/html-min: ^2.9`), so it picks up engine minor/patch releases automatically.
 
 ## Tests
 

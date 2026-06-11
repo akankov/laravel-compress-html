@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "8.3.* || 8.4.* || 8.5.*",
-        "akankov/html-min": "^2.8",
+        "akankov/html-min": "^2.9",
         "illuminate/contracts": "^12.0 || ^13.0",
         "illuminate/http": "^12.0 || ^13.0",
         "illuminate/support": "^12.0 || ^13.0",
