@@ -58,6 +58,16 @@ final class HtmlMinServiceProviderTest extends TestCase
         self::assertTrue($options->minifyInlineJs);
     }
 
+    public function testStartTagOmissionConfigKeyMapsToOptions(): void
+    {
+        config(['htmlmin.remove_omitted_html_start_tags' => true]);
+        app()->forgetInstance(MinifierOptions::class);
+
+        $options = app(MinifierOptions::class);
+
+        self::assertTrue($options->removeOmittedHtmlStartTags);
+    }
+
     public function testInlineCssConfigDrivesMinification(): void
     {
         config(['htmlmin.minify_inline_css' => true]);

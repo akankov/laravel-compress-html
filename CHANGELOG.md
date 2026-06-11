@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`remove_omitted_html_start_tags` config key.** Exposes engine v2.9.0's
+  opt-in `<html>`/`<head>`/`<body>` start-tag omission
+  (`MinifierOptions::$removeOmittedHtmlStartTags`). Off by default, matching
+  the engine default.
+- **Options parity guard.** A reflection-based test
+  (`tests/OptionsParityTest.php`) asserts that `config/htmlmin.php` exposes
+  exactly the constructor surface of the engine's `MinifierOptions` and that
+  every default mirrors the engine verbatim, so an engine release that adds,
+  renames, or re-defaults an option now fails CI instead of drifting
+  silently. (This guard is what surfaced the missing v2.9.0 key above.)
+
+### Changed
+
+- Engine requirement raised from `akankov/html-min ^2.8` to `^2.9` — the new
+  config key maps to a named constructor argument that only exists from
+  v2.9.0.
+
 ## [2.0.0] — 2026-06-07
 
 Major version: drops support for an EOL framework (see below). No change to the

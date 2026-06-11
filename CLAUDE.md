@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Three integration surfaces, all auto-discovered via `extra.laravel.providers`:
 
-- **`HtmlMinServiceProvider`** — singleton-binds `Akankov\HtmlMin\HtmlMin` and `Akankov\HtmlMin\Config\MinifierOptions`; publishes `config/htmlmin.php` (29 snake_case toggles → `MinifierOptions`'s camelCase properties via `Str::camel()`); registers Blade directives in `boot()`; registers the `html-min:check` Artisan command under `runningInConsole`.
+- **`HtmlMinServiceProvider`** — singleton-binds `Akankov\HtmlMin\HtmlMin` and `Akankov\HtmlMin\Config\MinifierOptions`; publishes `config/htmlmin.php` (32 snake_case keys → `MinifierOptions`'s camelCase properties via `Str::camel()`; `tests/OptionsParityTest.php` locks the keys and defaults to the engine's constructor surface); registers Blade directives in `boot()`; registers the `html-min:check` Artisan command under `runningInConsole`.
 - **`@htmlmin … @endhtmlmin` Blade directive** — buffers rendered Blade output through the minifier *after* Blade has escaped `{{ $expr }}` interpolations.
 - **`MinifyHtmlResponseMiddleware`** — opt-in HTTP middleware that minifies `text/html` response bodies; everything else passes through. The provider does NOT push it onto the global stack.
 - **`php artisan html-min:check FILE`** — Phase 4 Artisan command. Reads a file, minifies it in memory, prints the byte savings; never writes to disk.
@@ -20,7 +20,7 @@ The original implementation plan with rationale and rejected alternatives is pre
 Things that are easy to regress silently. Tests guard them; do not weaken or remove the guards.
 
 - **Escape-before-minify ordering.** `Blade/HtmlMinCompiler::open()` emits `<?php ob_start(); ?>` and `close()` emits `<?php echo app(HtmlMin::class)->minify(ob_get_clean()); ?>`. Blade compiles `{{ $expr }}` to `<?php echo e($expr); ?>` *before* our `ob_start()` wraps it, so the buffer captures already-escaped HTML. `tests/Blade/HtmlMinDirectiveTest.php::testBladeInterpolationStaysEscaped` locks this in with an XSS payload (`<script>alert(1)</script>` → `&lt;script&gt;…`). Same shape as `twig-compress-html/tests/HtmlMinExtensionTest.php::testNestedVariablesAreEscapedInsideTag`.
-- **Engine version.** `composer.json` requires `akankov/html-min: ^2.5`. The middleware adapter mirrors the engine's `MinifierMiddleware::shouldMinify()` policy (split on `;`, lowercase, allowlist `text/html`). The provider's snake-to-camel mapping depends on `MinifierOptions`'s named-arg promoted-property constructor.
+- **Engine version.** `composer.json` requires `akankov/html-min: ^2.9`. The middleware adapter mirrors the engine's `MinifierMiddleware::shouldMinify()` policy (split on `;`, lowercase, allowlist `text/html`). The provider's snake-to-camel mapping depends on `MinifierOptions`'s named-arg promoted-property constructor.
 - **Streamed/binary responses pass through.** `MinifyHtmlResponseMiddleware::shouldMinify()` rejects anything that isn't `Illuminate\Http\Response` (so `StreamedResponse`, `BinaryFileResponse` pass through) and anything whose `Content-Type` first segment isn't `text/html` (so JSON, plain text pass through). `tests/Http/MinifyHtmlResponseMiddlewareTest.php` covers JSON, streamed, and content-type-less responses — keep them green.
 - **In tests, prefer the global `app()` helper over `$this->app->make(...)`.** Larastan correctly types `app(HtmlMin::class)` as `HtmlMin`, but `$this->app` is genuinely nullable in `Illuminate\Foundation\Testing\TestCase`. PHPStan level max rejects unguarded calls on it, and the analyzer's own directive forbids working around the nullability with `assert()` / `@var` / casts.
 - **`composer.lock` is not committed.** Mirrors the engine and Twig sibling. CI runs `composer update` per push so the package tests against current resolutions.
@@ -48,7 +48,7 @@ src/
 ├── Blade/HtmlMinCompiler.php
 ├── Console/HtmlMinCheckCommand.php
 └── Http/MinifyHtmlResponseMiddleware.php
-config/htmlmin.php                          # publishable; 29 snake_case keys
+config/htmlmin.php                          # publishable; 32 snake_case keys
 tests/
 ├── TestCase.php                            # Testbench base
 ├── HtmlMinServiceProviderTest.php

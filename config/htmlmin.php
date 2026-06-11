@@ -39,4 +39,7 @@ return [
     'special_html_comments_ending_with' => [],
     'special_script_tags' => null,
     'template_logic_syntax_in_special_script_tags' => null,
+    // Opt-in (engine v2.9.0+): also omit <html>/<head>/<body> START tags where
+    // the HTML5 spec allows. Far more aggressive than end-tag omission.
+    'remove_omitted_html_start_tags' => false,
 ];
