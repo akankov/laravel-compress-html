@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **README: streamed/206/ESI pass-through guidance.** Documents precisely
+  what the opt-in response middleware skips and why.
+
 ### Added
 
 - **`remove_omitted_html_start_tags` config key.** Exposes engine v2.9.0's
