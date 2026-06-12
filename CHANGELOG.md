@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] — 2026-06-12
+
+Engine v2.9 option parity and an options parity guard. No breaking changes.
+
 ### Changed
 
 - **README: streamed/206/ESI pass-through guidance.** Documents precisely
