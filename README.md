@@ -74,6 +74,18 @@ Route::middleware(MinifyHtmlResponseMiddleware::class)
 
 The middleware only touches `Illuminate\Http\Response` instances whose `Content-Type` first segment is `text/html`. JSON, streamed, and binary responses pass through unchanged.
 
+What "pass through" covers, precisely:
+
+- **Streamed responses** (`StreamedResponse`, `BinaryFileResponse`) are never
+  buffered or minified — anything that is not a plain `Illuminate\Http\Response`
+  is returned as-is.
+- **Partial content** (`206` responses to range requests) is skipped by the
+  same mechanism in practice — range responses are produced as binary-file or
+  streamed responses; minifying a byte range of HTML would corrupt it.
+- **ESI/SSI fragments** assembled by a proxy are minified per-fragment only if
+  the proxy requests them as ordinary routes through this middleware — in
+  that case each fragment is valid standalone HTML and minifies safely.
+
 ## Configuration
 
 Every key in `config/htmlmin.php` is a snake_case mirror of a property on `Akankov\HtmlMin\Config\MinifierOptions`. The provider converts them with `Str::camel()` when constructing the options object, so:
