@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] — 2026-06-19
+
+### Changed
+
+- **Clear error on a stale published config key.** When a published
+  `config/htmlmin.php` carries a key the installed engine no longer accepts,
+  the service provider previously failed at boot with a cryptic
+  `Unknown named parameter $camelCasedKey`. It now throws an
+  `InvalidArgumentException` naming the offending snake_case key, the file, and
+  how to fix it (remove the key or re-publish the config).
+
+### Added
+
+- **Mutation testing.** An Infection config and a non-blocking `make infection`
+  gate (MSI floor 70, measured ~74%); test assertions hardened to kill the
+  console command's byte-savings/formatting mutants and the provider's
+  config-error mutants.
+- **Supply-chain tooling.** A Dependabot config (composer + github-actions,
+  7-day cooldown) and a non-blocking `composer audit` CI job.
+
+### Fixed
+
+- **Risky Blade directive test under newer Laravel.** `Blade::render()` now
+  renders via an anonymous component whose output buffering left the buffer
+  stack unbalanced when combined with the `@htmlmin` directive — which PHPUnit
+  flags as risky, failing the suite under `failOnRisky`. The directive tests
+  now render through a real view file (the production path), which is balanced.
+  No change to the directive itself.
+
 ## [2.1.0] — 2026-06-12
 
 Engine v2.9 option parity and an options parity guard. No breaking changes.

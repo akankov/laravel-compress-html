@@ -8,11 +8,13 @@ use Akankov\HtmlMin\Config\MinifierOptions;
 use Akankov\HtmlMin\HtmlMin;
 use Akankov\LaravelCompressHtml\Blade\HtmlMinCompiler;
 use Akankov\LaravelCompressHtml\Console\HtmlMinCheckCommand;
+use Error;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Override;
 
 final class HtmlMinServiceProvider extends ServiceProvider
@@ -62,11 +64,35 @@ final class HtmlMinServiceProvider extends ServiceProvider
     private static function optionsFromConfig(array $config): MinifierOptions
     {
         $camelCased = [];
+        $originalKeys = [];
         foreach ($config as $key => $value) {
-            $camelCased[Str::camel($key)] = $value;
+            $camel = Str::camel($key);
+            $camelCased[$camel] = $value;
+            $originalKeys[$camel] = $key;
         }
 
-        // @phpstan-ignore-next-line argument.type — keys/values are constrained by the published config schema; MinifierOptions's typed promoted properties enforce the final type contract.
-        return new MinifierOptions(...$camelCased);
+        try {
+            // @phpstan-ignore-next-line argument.type — keys/values are constrained by the published config schema; MinifierOptions's typed promoted properties enforce the final type contract.
+            return new MinifierOptions(...$camelCased);
+        } catch (Error $e) {
+            // A published config/htmlmin.php can drift from the engine: a key the
+            // installed MinifierOptions no longer accepts makes the named-arg
+            // spread throw "Unknown named parameter $camelKey" on every request.
+            // Rethrow naming the key as it appears in the user's config file so the
+            // fix (re-publish or remove the stale key) is obvious.
+            if (preg_match('/Unknown named parameter \$(\w+)/', $e->getMessage(), $m) !== 1) {
+                throw $e;
+            }
+
+            $offending = $originalKeys[$m[1]] ?? Str::snake($m[1]);
+
+            throw new InvalidArgumentException(
+                "htmlmin: unknown config key '{$offending}' in config/htmlmin.php. "
+                . 'The installed akankov/html-min no longer accepts this option — '
+                . 'remove the key or re-publish the config with '
+                . '`php artisan vendor:publish --tag=' . self::PUBLISH_TAG . ' --force`.',
+                previous: $e,
+            );
+        }
     }
 }
