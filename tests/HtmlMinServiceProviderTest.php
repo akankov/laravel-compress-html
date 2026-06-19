@@ -7,6 +7,8 @@ namespace Akankov\LaravelCompressHtml\Tests;
 use Akankov\HtmlMin\Config\MinifierOptions;
 use Akankov\HtmlMin\HtmlMin;
 use Illuminate\Support\Facades\Artisan;
+use InvalidArgumentException;
+use TypeError;
 
 final class HtmlMinServiceProviderTest extends TestCase
 {
@@ -77,6 +79,39 @@ final class HtmlMinServiceProviderTest extends TestCase
         $out = app(HtmlMin::class)->minify('<style>a { color: red; /* x */ }</style>');
 
         self::assertStringContainsString('<style>a{color:red}</style>', $out);
+    }
+
+    public function testUnknownConfigKeyThrowsHelpfulException(): void
+    {
+        config(['htmlmin.totally_bogus_key' => true]);
+        app()->forgetInstance(MinifierOptions::class);
+
+        $this->expectException(InvalidArgumentException::class);
+        // Assert the full message: it names the offending snake_case key as it
+        // appears in the published config, the file, and the fix. The exact
+        // string also pins every segment of the concatenated message.
+        $this->expectExceptionMessage(
+            "htmlmin: unknown config key 'totally_bogus_key' in config/htmlmin.php. "
+            . 'The installed akankov/html-min no longer accepts this option — '
+            . 'remove the key or re-publish the config with '
+            . '`php artisan vendor:publish --tag=htmlmin-config --force`.',
+        );
+
+        app(MinifierOptions::class);
+    }
+
+    public function testWronglyTypedConfigValuePropagatesOriginalError(): void
+    {
+        // A wrong-typed value (not an unknown key) makes the MinifierOptions
+        // constructor throw a TypeError, which is not an "unknown named
+        // parameter" error. The provider must rethrow it unchanged rather than
+        // mislabeling it as an unknown config key.
+        config(['htmlmin.remove_comments' => 'not-a-bool']);
+        app()->forgetInstance(MinifierOptions::class);
+
+        $this->expectException(TypeError::class);
+
+        app(MinifierOptions::class);
     }
 
     public function testConfigIsPublishable(): void

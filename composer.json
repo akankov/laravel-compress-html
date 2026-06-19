@@ -21,6 +21,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.65",
+        "infection/infection": "^0.33",
         "larastan/larastan": "^3.0",
         "orchestra/testbench": "^10.0 || ^11.0",
         "phpstan/extension-installer": "^1.4",
@@ -52,6 +53,7 @@
         },
         "sort-packages": true,
         "allow-plugins": {
+            "infection/extension-installer": true,
             "phpstan/extension-installer": true
         }
     },
